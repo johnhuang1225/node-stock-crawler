@@ -2,13 +2,13 @@
  * url: 'https://statementdog.com/api/v1/fundamentals/1702/2012/1/2017/4'
  * url: 'https://statementdog.com/api/v1/fundamentals/1702/2012/1/2017/4/?queried_by_user=true&_=1504580464275'
  */
-const request = require('request');
-const cheerio = require('cheerio');
-const async = require('async');
+ const request = require('request');
+ const cheerio = require('cheerio');
+ const async = require('async');
 
-const stocks = require('../config/stock').stocks;
+ const stocks = require('../config/stock').stocks;
 
-function Stock(info, pe, pb, cashYield) {
+ function Stock(info, pe, pb, cashYield) {
   this.info = info
   this.pe = pe;
   this.pb = pb;

@@ -2,19 +2,23 @@
  * url: 'https://statementdog.com/api/v1/fundamentals/1702/2012/1/2017/4'
  * url: 'https://statementdog.com/api/v1/fundamentals/1702/2012/1/2017/4/?queried_by_user=true&_=1504580464275'
  */
-const request = require('request');
-const cheerio = require('cheerio');
+ const request = require('request');
+ const cheerio = require('cheerio');
 
-const stocks = require('../config/stock').stocks;
+ const stocks = require('../config/stock').stocks;
 
-function Stock(info, pe, pb, cashYield) {
+ function Stock(info, pe, pb, cashYield, directHoldings) {
   this.info = info
   this.pe = pe;
   this.pb = pb;
   this.cashYield = cashYield;
-  this.getStockData = function() {
-    return `公司資料: ${info}\t 本益比: ${this.pe}\t 股價淨值比:${this.pb}\t 殖利率:${this.cashYield}`;
-  }
+  this.directHoldings = directHoldings;
+}
+
+Stock.prototype.getStockData = function() {
+  return `公司資料: ${this.info}\t 本益比: ${this.pe}\t 
+          股價淨值比:${this.pb}\t 殖利率:${this.cashYield}\t
+          董監持股:${this.directHoldings}`;
 }
 
 
@@ -32,8 +36,8 @@ stocks.forEach(stock => {
       var pe = json[9].data.PE;
       var pb = json[9].data.PB;
       var cashYield = json[9].data.CashYield;
-
-      var stock = new Stock(info, pe, pb, cashYield);
+      console.log(Object.keys(json));
+      var stock = new Stock(info, pe, pb, cashYield, '');
       console.log(stock.getStockData());
 
       // console.log(`昨日收盤價: ${json[1].data.latest_closing_price}`);
